@@ -6,5 +6,6 @@ Berikut ini Flowchart dari Robot Pembawa Barang berbasis Arduino Mega 5620: <br>
 
 
 Finite Diagram hasil progres dari Robot Pembawa Barang:<br>
-![Finite Diagram](https://github.com/lailynrq/CarryingRobot/assets/141415418/ca75984f-b97e-40ba-b0c3-aeab2ed1901e)
+![finitediagram drawio (1)](https://github.com/lailynrq/CarryingRobot/assets/141415418/ce6eb35b-efc7-4ea0-99a9-e4edbffcd30b)
+
 
