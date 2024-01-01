@@ -203,7 +203,7 @@ void ultrasonicBTaskFunction(void* parameter) {
 
      // Check if distance is close enough to stop motors
     else if (distanceB == 0) {
-      motorSpeed = 255/4; // Speed for distance between 0 and 40 cm
+      motorSpeed = 255/3; // Speed for distance between 0 and 40 cm
       xQueueSendToBack(motorSpeedQueue, &motorSpeed, portMAX_DELAY);
 
       // Change priority of ultrasonicBTask to 1
