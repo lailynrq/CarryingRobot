@@ -155,7 +155,7 @@ void ultrasonicATaskFunction(void* parameter) {
     }
 
     // Check if distance is close enough to stop motors
-    else if ((distanceA >= 0) && (distanceA <= 0)) {
+    else if ((distanceA >= 0) && (distanceA <= 40)) {
       motorSpeed = 0; // Speed for distance between 0 and 40 cm
       xQueueSendToBack(motorSpeedQueue, &motorSpeed, portMAX_DELAY);
     } else {
@@ -184,12 +184,12 @@ void ultrasonicBTaskFunction(void* parameter) {
     digitalWrite(trigPinB, LOW);
 
     // Read the top ultrasonic sensor
-    durationB = pulseIn(echoPinB, HIGH);
+    long duration = pulseIn(echoPinB, HIGH);
 
     // Acquire mutex before updating the shared variable
     if (xSemaphoreTake(ultrasonicBMutex, portMAX_DELAY) == pdTRUE) {
       // Calculate distance in centimeters
-      distanceB = durationB / 58.2; // simplified form
+      distanceB = duration / 58.2; // simplified form
       xSemaphoreGive(ultrasonicBMutex); // Release the mutex
     }
 
