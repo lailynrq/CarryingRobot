@@ -40,6 +40,12 @@ int motorBPriority = 1;
 void motorATaskFunction(void* parameter);
 void motorBTaskFunction(void* parameter);
 void ultrasonicTaskFunction(void* parameter);
+void changePriority(int newPriority);
+
+void changePriority(int newPriority) {
+  vTaskPrioritySet(motorATask, newPriority);
+  vTaskPrioritySet(motorBTask, newPriority);
+}
 
 void setup() {
   Serial.begin(9600);
@@ -68,6 +74,10 @@ void setup() {
   xTaskCreate(ultrasonicTaskFunction, "UltrasonicTask1", 100, (void*)1, 3, &ultrasonicTask1);
   xTaskCreate(ultrasonicTaskFunction, "UltrasonicTask2", 100, (void*)2, 3, &ultrasonicTask2);
 
+  // Set prioritas awal
+  changePriority(motorAPriority);
+  changePriority(motorBPriority);
+  
   // Start the FreeRTOS scheduler
   vTaskStartScheduler();
 }
@@ -177,7 +187,7 @@ void ultrasonicTaskFunction(void* parameter) {
           motorBPriority = 2;
           changePriority(motorAPriority);
           changePriority(motorBPriority);
-      }
+        }
       }
       else {
         motorSpeed = 0;
@@ -186,18 +196,13 @@ void ultrasonicTaskFunction(void* parameter) {
           motorBPriority = 1;
           changePriority(motorAPriority);
           changePriority(motorBPriority);
-      }
+        }
       //motorSpeed = (distance2 >= 0 && distance2 <= 40) ? 255 / 4 : 0;
+      }
     }
-
     xQueueSendToBack(motorSpeedQueue, &motorSpeed, portMAX_DELAY);
 
     // You can add a delay here if needed
     vTaskDelay(pdMS_TO_TICKS(500)); // Delay for 500 milliseconds
   }
-}
-
-void changePriority(int newPriority) {
-  vTaskPrioritySet(motorATask, newPriority);
-  vTaskPrioritySet(motorBTask, newPriority);
 }
